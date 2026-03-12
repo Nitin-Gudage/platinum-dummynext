@@ -21,8 +21,7 @@ export default function HeroSlider() {
       {hero_swiper_data.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-all duration-1000 ${index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"}
-            }`}
+          className={`absolute inset-0 transition-opacity duration-700 ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
         >
           {/* Background Image using Next.js Image with fill */}
           <div className="absolute inset-0">

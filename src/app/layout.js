@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
+import { Metadata } from "next";
 
 export const metadata = {
   title: "Platinum Group - AC Repair & Services in Pune",
@@ -12,6 +13,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" as="image" href="/images/hero/hero-home.webp" />
+        <link rel="preload" as="image" href="/logo.png" />
+      </head>
       <body className="font-sans antialiased">
         <Navbar />
         <main>{children}</main>
