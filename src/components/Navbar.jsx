@@ -1,0 +1,259 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import { menu, contactInfo, logo } from "../data/Data";
+
+/* ---------------- Icons ---------------- */
+
+const PhoneIcon = () => (
+  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+    />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    />
+  </svg>
+);
+
+const XIcon = () => (
+  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
+
+const MenuIcon = () => (
+  <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+);
+
+/* ---------------- Navbar ---------------- */
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const mobileRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  /* -------- Scroll Optimization -------- */
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* -------- Click Outside Close -------- */
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mobileRef.current && !mobileRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  const closeMenu = () => setIsOpen(false);
+
+  /* -------- Search -------- */
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (!searchQuery.trim()) return;
+
+    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+
+    setShowSearch(false);
+    setSearchQuery("");
+    setIsOpen(false);
+  };
+
+  /* -------- Menu Links -------- */
+
+  const Links = ({ onClick }) => (
+    <div className="flex flex-col md:flex-row items-center gap-5 md:gap-4 ">
+      {menu.map((item, index) => {
+        const isActive = pathname === item.link || pathname.startsWith(item.link + "/");
+        return (
+          <Link
+            key={index}
+            href={item.link}
+            onClick={onClick}
+            className={`text-sm font-medium transition-all duration-200 text-center ${isActive
+              ? "text-blue-600 "
+              : "text-gray-700 hover:text-gray-950 "
+              }`}
+          >
+            {item.title}
+          </Link>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <header
+      className={"fixed top-0 w-full z-[999] transition-all duration-300 will-change-transform bg-white/10 backdrop-blur-md shadow-lg p-3"}
+    >
+      {/* Top Bar */}
+
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+
+          <Link href="/" onClick={closeMenu} className="relative z-10">
+            <img src={logo.icon} alt={logo.altName} className="sm:h-8 lg:h-10 h-10" />
+          </Link>
+
+          {/* Desktop Menu */}
+
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 px-5 py-2 bg-white/70 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-sm transition-all duration-300">
+            <Links onClick={closeMenu} />
+
+            {/* Search */}
+
+            <form onSubmit={handleSearch} className="flex items-center gap-2" role="search">
+              <div
+                className={`overflow-hidden transition-all duration-300 ${showSearch ? "w-44 lg:w-52 opacity-100" : "w-0 opacity-0"
+                  }`}
+              >
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search services..."
+                  aria-label="Search"
+                  className="w-full px-3 py-2 text-sm bg-gray-50 rounded-xl outline-none border border-transparent focus:bg-white focus:border-blue-200 transition-all duration-200"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowSearch((p) => !p)}
+                aria-label="Toggle search"
+                className="btn-ghost text-lg"
+              >
+                {showSearch ? <XIcon /> : <SearchIcon />}
+              </button>
+            </form>
+
+            {/* Call Button */}
+
+            <a
+              href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
+              itemProp="telephone"
+              className="btn-primary"
+            >
+              <PhoneIcon />
+              Call Now
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+
+          <button
+            onClick={() => setIsOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={isOpen}
+            className="btn-ghost md:hidden text-3xl"
+          >
+            <MenuIcon />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Overlay */}
+
+      <nav
+        aria-label="Main Navigation"
+        className={`md:hidden fixed inset-0 z-[1001] bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+      >
+        <div
+          ref={mobileRef}
+          className={`absolute top-3 left-1/2 -translate-x-1/2 w-[90%] max-w-sm flex flex-col gap-4 items-center p-6 bg-white/95 backdrop-blur-xl border border-gray-100 shadow-2xl rounded-3xl transition-all duration-300 ease-out ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"
+            }`}
+        >
+          {/* Close */}
+
+          <button
+            onClick={closeMenu}
+            aria-label="Close menu"
+            className="btn-ghost absolute top-4 right-4 text-2xl"
+          >
+            <XIcon />
+          </button>
+
+          {/* Logo */}
+
+          <Link href="/" onClick={closeMenu} className="relative z-10">
+            <img src={logo.icon} alt={logo.altName} className="h-10" />
+          </Link>
+
+          <Links onClick={closeMenu} />
+
+          {/* Mobile Search */}
+
+          <form onSubmit={handleSearch} className="flex w-full gap-2">
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search services..."
+              aria-label="Search services"
+              className="w-full px-4 py-3 text-sm bg-gray-50 rounded-xl outline-none border border-transparent focus:bg-white focus:border-blue-200"
+            />
+
+            <button aria-label="Submit search" className="btn-ghost text-xl">
+              <SearchIcon />
+            </button>
+          </form>
+
+          {/* Call */}
+
+          <a
+            href={`tel:${contactInfo.mobile1.replace(/\s+/g, "")}`}
+            onClick={closeMenu}
+            className="btn-primary w-full"
+          >
+            <PhoneIcon />
+            Call Now
+          </a>
+        </div>
+      </nav>
+    </header>
+  );
+}
