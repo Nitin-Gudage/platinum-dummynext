@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { footerLinks, contactInfo, logo } from "../data/Data";
+import Image from "next/image";
 
 export default function Footer() {
   const [active, setActive] = useState(null);
@@ -27,11 +28,13 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <img
+              <Image
                 src={logo.icon}
                 alt="Platinum Group Logo"
-                className="h-16"
-                loading="lazy"
+                width={180}
+                height={64}
+                className="h-16 w-auto"
+                priority
               />
             </div>
 
@@ -96,10 +99,13 @@ export default function Footer() {
         <div className="md:hidden space-y-3">
 
           <div className="text-center mb-6">
-            <img
+            <Image
               src={logo.icon}
               alt="Platinum Group Logo"
-              className="h-14 mx-auto mb-4"
+              width={140}
+              height={48}
+              className="h-14 mx-auto mb-4 w-auto"
+              priority
             />
 
             <p className="text-gray-400 text-sm mb-2">

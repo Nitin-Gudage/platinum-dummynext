@@ -4,6 +4,7 @@ import { brands } from "@/data/Data";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import Image from "next/image";
 
 import "swiper/css";
 
@@ -49,10 +50,13 @@ export default function BrandsSwiper() {
         {brands.map((brand, index) => (
           <SwiperSlide key={index}>
             <div className="flex items-center justify-center h-20 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
-              <img
+              <Image
                 src={brand.image}
                 alt={brand.name}
+                width={120}
+                height={40}
                 className="max-h-10 object-contain"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
               />
             </div>
           </SwiperSlide>

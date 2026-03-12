@@ -4,6 +4,7 @@ import { useState } from "react";
 import { our_services } from "../data/HeroData";
 import Link from "next/link";
 import ServiceModal from "./ServiceModal";
+import Image from "next/image";
 
 export default function OurServices() {
   const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -38,7 +39,7 @@ export default function OurServices() {
           {our_services.map((service, index) => (
             <div
               key={index}
-              className="custom-card flex flex-col items-center text-center p-6 bg-white group"
+              className="custom-card flex flex-col items-center justify-around text-center p-6 bg-white group"
             >
 
               {/* Icon */}
@@ -46,12 +47,13 @@ export default function OurServices() {
                 <div className="absolute inset-0 bg-blue-100 rounded-xl rotate-6 scale-110 opacity-0 group-hover:opacity-100 transition-all duration-300" />
 
                 <div className="relative w-20 h-20 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 group-hover:border-blue-200 transition-all duration-300">
-                  <img
-                    src={service.icon}
+                  <Image
+                    src={`/${service.icon}`}
                     alt={service.title}
-                    loading="lazy"
-                    decoding="async"
+                    width={56}
+                    height={56}
                     className="max-h-14 object-contain transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1"
+                    sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                   />
                 </div>
               </div>

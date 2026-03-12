@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { ac_types } from "../data/AcData";
 
 export default function BookServiceModal({ service, serviceFeatures, isOpen, onClose }) {
@@ -181,14 +182,13 @@ export default function BookServiceModal({ service, serviceFeatures, isOpen, onC
                                     </h3>
 
                                     <div className="space-y-3">
-                                        <div className="aspect-video md:aspect-[3/2] lg:aspect-[4/3] xl:aspect-[3/2] rounded-lg overflow-hidden bg-gray-100">
-                                            <img
+                                        <div className="aspect-video md:aspect-[3/2] lg:aspect-[4/3] xl:aspect-[3/2] rounded-lg overflow-hidden bg-gray-100 relative">
+                                            <Image
                                                 src={`/${service.image}`}
                                                 alt={service.name}
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    e.target.src = "/images/ac-technician.png";
-                                                }}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                             />
                                         </div>
 
@@ -339,14 +339,13 @@ export default function BookServiceModal({ service, serviceFeatures, isOpen, onC
 
                                 {/* Default Visible Details */}
                                 <div className="space-y-3 ">
-                                    <div className="aspect-video md:aspect-[3/2] lg:aspect-[4/3] xl:aspect-[2/1] rounded-lg overflow-hidden bg-gray-100">
-                                        <img
+                                    <div className="aspect-video md:aspect-[3/2] lg:aspect-[4/3] xl:aspect-[2/1] rounded-lg overflow-hidden bg-gray-100 relative">
+                                        <Image
                                             src={`/${service.image}`}
                                             alt={service.name}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => {
-                                                e.target.src = "/images/ac-technician.png";
-                                            }}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         />
                                     </div>
 

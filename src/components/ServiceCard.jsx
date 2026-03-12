@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import BookServiceModal from "./BookServiceModal";
+import Image from "next/image";
 
 // Skeleton loader component for single service card
 export function ServiceCardSkeleton() {
@@ -111,13 +112,12 @@ export function ACSelectorDesktop({ acTypes, selectedAc, onSelect }) {
                                 }`}
                         >
                             <div className="aspect-video bg-gray-100">
-                                <img
+                                <Image
                                     src={`/${ac.image}`}
                                     alt={ac.name}
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                        e.target.src = "/images/ac-technician.png";
-                                    }}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 100vw, 33vw"
                                 />
                             </div>
                             <div
@@ -321,13 +321,12 @@ export function ServiceCard({ service, features }) {
                     <div className="lg:w-80 shrink-0 order-1 lg:order-2 flex flex-col">
                         {/* 16:9 Aspect Ratio Image Container */}
                         <div className="relative w-full aspect-video bg-gray-100 rounded-t-xl overflow-hidden flex items-center justify-center">
-                            <img
+                            <Image
                                 src={`/${service.image}`}
                                 alt={service.name}
-                                className="w-full h-full object-cover object-center"
-                                onError={(e) => {
-                                    e.target.src = "/images/ac-technician.png";
-                                }}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 33vw"
                             />
                         </div>
 

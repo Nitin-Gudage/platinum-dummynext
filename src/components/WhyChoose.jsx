@@ -1,6 +1,7 @@
 "use client";
 
 import { whyToChoose } from "@/data/Data";
+import Image from "next/image";
 
 export default function WhyChoose() {
 
@@ -33,7 +34,13 @@ export default function WhyChoose() {
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-3xl p-6 md:p-8 text-center hover:bg-gray-800 transition-all duration-500 h-full border border-gray-700/50 hover:border-gray-600">
                 {/* Icon */}
                 <div className={`w-14 h-14 md:w-16 md:h-16 mx-auto mb-5 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                  <img src={feature.icon} alt="" />
+                  <Image
+                    src={feature.icon}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="w-8 h-8"
+                  />
                 </div>
 
                 {/* Title */}

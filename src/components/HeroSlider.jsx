@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { hero_swiper_data } from "../data/HeroData";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -20,18 +21,21 @@ export default function HeroSlider() {
       {hero_swiper_data.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-all duration-1000 ${index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          className={`absolute inset-0 transition-all duration-1000 ${index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"}
             }`}
         >
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-top bg-no-repeat"
-            style={{ backgroundImage: `url(${slide.image})` }}
-          >
+          {/* Background Image using Next.js Image with fill */}
+          <div className="absolute inset-0">
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              fill
+              priority={index === 0}
+              className="object-cover"
+              sizes="100vw"
+            />
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/60 to-transparent" />
-
-            {/* Decorative Elements */}
           </div>
         </div>
       ))}

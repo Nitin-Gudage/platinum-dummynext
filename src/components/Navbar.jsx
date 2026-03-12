@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { menu, contactInfo, logo } from "../data/Data";
+import Image from "next/image";
 
 /* ---------------- Icons ---------------- */
 
@@ -137,7 +138,14 @@ export default function Navbar() {
           {/* Logo */}
 
           <Link href="/" onClick={closeMenu} className="relative z-10">
-            <img src={logo.icon} alt={logo.altName} className="sm:h-8 lg:h-10 h-10" />
+            <Image
+              src={logo.icon}
+              alt={logo.altName}
+              width={150}
+              height={40}
+              className="sm:h-8 lg:h-10 h-10 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -221,7 +229,14 @@ export default function Navbar() {
           {/* Logo */}
 
           <Link href="/" onClick={closeMenu} className="relative z-10">
-            <img src={logo.icon} alt={logo.altName} className="h-10" />
+            <Image
+              src={logo.icon}
+              alt={logo.altName}
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
 
           <Links onClick={closeMenu} />

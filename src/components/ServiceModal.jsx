@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { our_service_steps, our_services } from "../data/HeroData";
+import Image from "next/image";
 
 export default function ServiceModal({ serviceId, isOpen, onClose }) {
 
@@ -116,14 +117,13 @@ export default function ServiceModal({ serviceId, isOpen, onClose }) {
                                     >
                                         {/* Step Image */}
                                         <div className="md:w-32 w-full shrink-0">
-                                            <div className="aspect-video rounded-lg overflow-hidden bg-gray-200">
-                                                <img
+                                            <div className="aspect-video rounded-lg overflow-hidden bg-gray-200 relative">
+                                                <Image
                                                     src={`/${step.image}`}
                                                     alt={step.title}
-                                                    className="w-full h-full object-cover"
-                                                    onError={(e) => {
-                                                        e.target.src = "/images/ac-technician.png";
-                                                    }}
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="(max-width: 768px) 100vw, 50vw"
                                                 />
                                             </div>
                                         </div>

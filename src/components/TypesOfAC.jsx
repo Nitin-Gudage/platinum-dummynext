@@ -2,6 +2,7 @@
 
 import { ac_types } from "../data/AcData";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function TypesOfAC() {
   return (
@@ -34,12 +35,13 @@ export default function TypesOfAC() {
 
                 {/* Hover background */}
 
-                <img
-                  src={ac.image}
+                <Image
+                  src={`/${ac.image}`}
                   alt={ac.name}
-                  loading="lazy"
-                  decoding="async"
+                  width={80}
+                  height={80}
                   className="max-h-20 rounded-lg object-contain transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1"
+                  sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
                 />
 
               </div>
